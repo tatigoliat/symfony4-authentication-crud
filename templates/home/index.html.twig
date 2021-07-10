@@ -1,24 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
 <div class="container">
   <div class="row">
     <div class="col-md-12">
       <div class="card bg-light mb-3 mt-3">
         <div class="card-body">
-          <div class="card-header">List of top technology companies</div>
+          <div class="card-header">List of Users</div>
           <AmpContent>
           <table class="table">
             <tr>
-              <th>Company Name</th>
-              <th>Market Value</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Roles</th>
+              <th>Actions</th>
             </tr>
-            {% for key, item in companies %}
+            {% for u in users %}
             <tr>
-              <td>{{ key }}</td>
-              <td>{{ item }}</td>
+              <td>{{ u.name }}</td>
+              <td>{{ u.username }}</td>
+              <td>{{ u.roles[0] }}</td>
+              {% if (app.user.roles[0] == "ADMIN") %}
+                <td><a href="delete-user/{{ u.id }}">Delete</a> / <a href="update-user/{{ u.id }}">Update</a></td>
+              {% else %}
+                <td>N/A</td>
+              {% endif %}
             </tr>
             {% endfor %}
           </table>
@@ -27,10 +33,11 @@
         </div>
       </div>
       <AmpContent>
-      <a href="{{ path('app_login') }}" class="btn btn-info">
-        You need to login to see this content >></a
-      >
-      
+      {% if (app.user.roles[0] == "ADMIN") %}
+        <a href="{{ path('app_login') }}" class="btn btn-info">
+          Register</a
+        >
+      {% endif %}
 </NonAmpContent>
     </div>
   </div>

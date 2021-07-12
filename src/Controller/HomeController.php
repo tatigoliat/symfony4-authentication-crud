@@ -14,6 +14,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class HomeController extends AbstractController
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+    
     /**
      * @Route("/home", name="home")
      */
@@ -56,6 +63,8 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            // Encode the new users password
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
 
             $user = $form->getData();
             $em = $this->getDoctrine()->getManager();

@@ -24,16 +24,13 @@
               'form-control'}}) }}
             </div>
           </div>
-          <div class="form-group">
+          <div class="form_group">
             <div class="col-md-12 mb-3">
-              <label for="cars">Roles</label>
-              <select class="form-control" id="roles">
-                <option value="ROLE_ADMIN">ROLE_ADMIN</option>
-                <option value="ROLE_PAGE_1">ROLE_PAGE_1</option>
-                <option value="ROLE_PAGE_1">ROLE_PAGE_2</option>
-              </select>
+              {{ form_row(form.roles, {'attr': {'class':
+              'form-control'}}) }}
             </div>
           </div>
+        </br>
           <div class="form_group">
             <div class="col-md-12 mb-3">
               <label>Password</label>

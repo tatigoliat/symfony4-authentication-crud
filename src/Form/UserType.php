@@ -15,11 +15,23 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entity = $builder->getData();
+
         $builder
             ->add('username', TextType::class)
             // ->add('roles', TextType::class)
             ->add('password', PasswordType::class)
             ->add('name', TextType::class)
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'admin' => 'ROLE_ADMIN',
+                    'page1' => 'ROLE_PAGE_1',
+                    'page2' => 'ROLE_PAGE_2',
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'data' => $entity->getRoles() // Current roles assigned..
+            ])
         ;
     }
 

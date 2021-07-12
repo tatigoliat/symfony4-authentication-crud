@@ -1,3 +1,19 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+delete:
+  path: /delete-user/{id}
+  controller: App\Controller\HomeController::deleteUser
+
+update:
+  path: /update/{id}
+  controller: App\Controller\HomeController::updateUser
+
+page:
+  path: /page/{id}
+  controller: App\Controller\HomeController::page
+
+create:
+  path: /create
+  controller: App\Controller\HomeController::createUser

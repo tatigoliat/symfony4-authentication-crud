@@ -19,6 +19,8 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Security\Core\Role\SwitchUserRole;
+
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
@@ -94,19 +96,24 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-
-        return new RedirectResponse($this->urlGenerator->generate('home'));
         
-        // if($this->getUser()->hasRole('ADMIN'))
-        //     return new RedirectResponse($this->urlGenerator->generate('home'));
-        // elseif($this->getUser()->hasRole('PAGE_1'))
-        //     return new RedirectResponse($this->urlGenerator->generate('page1'));
-        // elseif($this->getUser()->hasRole('PAGE_2'))
-        //     return new RedirectResponse($this->urlGenerator->generate('page2'));
+        $roles = $token->getRoles();
+        $rolesName = array_map(function($role) { 
+          return $role->getRole(); 
+        }, $roles);
+        
+        if (in_array('ROLE_ADMIN', $rolesName, true)) {
+            return new RedirectResponse($this->urlGenerator->generate('home'));
+        } else if (in_array('ROLE_PAGE_1', $rolesName, true)){
+            return new RedirectResponse($this->urlGenerator->generate('page/1'));
+        } else if (in_array('ROLE_PAGE_2', $rolesName, true)){
+            return new RedirectResponse($this->urlGenerator->generate('page/2'));
+        }
     }
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        // return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->urlGenerator->generate('app_login');
     }
 }

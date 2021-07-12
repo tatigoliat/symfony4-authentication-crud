@@ -101,7 +101,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $rolesName = array_map(function($role) { 
           return $role->getRole(); 
         }, $roles);
-        
+
         if (in_array('ROLE_ADMIN', $rolesName, true)) {
             return new RedirectResponse($this->urlGenerator->generate('home'));
         } else if (in_array('ROLE_PAGE_1', $rolesName, true)){

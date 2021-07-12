@@ -111,7 +111,7 @@ class HomeController extends AbstractController
 
     public function page(Request $request, $id)
     {
-
+        
         return $this->render(
             'user/page.html.twig',
             array('id' => $id)
